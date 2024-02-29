@@ -82,7 +82,7 @@ class SupplierController extends Controller
             'path' => "Suppliers",
             'dir' => "Edit Supplier",
             'activePage' => 'Supplier',
-            'Supplier' => Supplier::findOrFail($id)
+            'supplier' => Supplier::findOrFail($id)
        ];
 
         return view('pages.admin.suppliers.edit', $viewData);
@@ -110,8 +110,8 @@ class SupplierController extends Controller
      */
     public function destroy(Request $request)
     {
-        $supplier = Supplier::findOrFail($request->id_user);
+        $supplier = Supplier::findOrFail($request->id_supplier);
         $supplier->delete();
-        return redirect('/suppliers');   
+        return redirect('/supplier');   
     }
 }

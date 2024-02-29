@@ -14,62 +14,48 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12 p-3">
-            <a href="{{ route('users.create') }}" class="btn btn-primary mb-3">Add User</a>
+            <a href="{{ route('category.create') }}" class="btn btn-primary mb-3">Add Category</a>
     <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Users</h3>
+          <h3 class="card-title">Item Category</h3>
         </div>
         <!-- /.card-header -->
         <div class="card-body">
-          <table id="users-table" class="table table-bordered table-striped">
+          <table id="category-table" class="table table-bordered table-striped">
             <thead>
             <tr>
               <th>No</th>
-              <th>Username</th>
-              <th>Name(s)</th>
-              <th>Email</th>
-              <th>Address</th>
-              <th>Phone Number</th>
-              <th>Role</th>
+              <th>Category Name</th>
               <th>Action</th>
             </tr>
             </thead>
             <tbody>
-              @forelse ($users as $user) 
+              @forelse ($categories as $category)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $user->username }}</td>
-                <td>{{ $user->name }}</td>
-                <td>{{ $user->email }}</td>
-                <td>{{ $user->address }}</td>
-                <td>{{ $user->phone_number }}</td>
-                <td>{{ $user->name_role }}</td>
+                <td>{{ $category->name_category }}</td>
                 <td>
-                    <a href="https://wa.me/62{{ $user->phone_number }}" class="btn btn-success">Whatsapp</a>
-                    <a href="{{ route('users.edit', $user->id_user) }}" class="btn btn-warning">Edit</a> 
-                    <form action="{{ route('users.delete.perform', $user->id_user) }}" method="POST" class="d-inline">
+                    <a href="{{ route('category.edit', $category->id_category) }}" class="btn btn-warning">Edit</a> 
+                    <form action="{{ route('category.delete.perform', $category->id_category) }}" method="POST" class="d-inline">
                         @csrf
                         @method('delete')
-                        <input type="hidden" value="{{ $user->id_user }}" name="id_user">
+                        <input type="hidden" value="{{ $category->id_category }}" name="id_category">
                     <button class="btn btn-danger" type="submit" onclick="return confirm('Are you sure?')">Delete</button>
                     </form>
                 </td>
             </tr>
+                  
               @empty
-                 <tr>
-                  <td colspan="7" class="text-center">No Data</td>
-                 </tr> 
+              <tr>
+                <td colspan="3" class="text-center">No Data</td>
+              </tr>
+                  
               @endforelse
             </tbody>
             <tfoot>
             <tr>
               <th>No</th>
-              <th>Username</th>
-              <th>Name(s)</th>
-              <th>Email</th>
-              <th>Address</th>
-              <th>Phone Number</th>
-              <th>Role</th>
+              <th>Supplier Name</th>
               <th>Action</th>
             </tr>
             </tfoot>
@@ -87,12 +73,12 @@
 @push('scripts')    
 <script>
   $(function () {
-    $("#users-table").DataTable({
+    $("#category-table").DataTable({
       "responsive": true, 
       "lengthChange": false, 
       "autoWidth": false,
       "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#users-table_wrapper .col-md-6:eq(0)');
+    }).buttons().container().appendTo('#category-table_wrapper .col-md-6:eq(0)');
     $('#example2').DataTable({
       "paging": true,
       "lengthChange": false,

@@ -14,62 +14,50 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12 p-3">
-            <a href="{{ route('users.create') }}" class="btn btn-primary mb-3">Add User</a>
+            <a href="{{ route('suppliers.create') }}" class="btn btn-primary mb-3">Add Supplier</a>
     <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Users</h3>
+          <h3 class="card-title">Suppliers</h3>
         </div>
         <!-- /.card-header -->
         <div class="card-body">
-          <table id="users-table" class="table table-bordered table-striped">
+          <table id="suppliers-table" class="table table-bordered table-striped">
             <thead>
             <tr>
               <th>No</th>
-              <th>Username</th>
-              <th>Name(s)</th>
-              <th>Email</th>
-              <th>Address</th>
+              <th>Supplier Name</th>
               <th>Phone Number</th>
-              <th>Role</th>
               <th>Action</th>
             </tr>
             </thead>
             <tbody>
-              @forelse ($users as $user) 
+              @forelse ($suppliers as $supplier)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $user->username }}</td>
-                <td>{{ $user->name }}</td>
-                <td>{{ $user->email }}</td>
-                <td>{{ $user->address }}</td>
-                <td>{{ $user->phone_number }}</td>
-                <td>{{ $user->name_role }}</td>
+                <td>{{ $supplier->name_supplier }}</td>
+                <td>{{ $supplier->phone_number_supplier }}</td>
                 <td>
-                    <a href="https://wa.me/62{{ $user->phone_number }}" class="btn btn-success">Whatsapp</a>
-                    <a href="{{ route('users.edit', $user->id_user) }}" class="btn btn-warning">Edit</a> 
-                    <form action="{{ route('users.delete.perform', $user->id_user) }}" method="POST" class="d-inline">
+                    <a href="https://wa.me/62{{ $supplier->phone_number_supplier }}" class="btn btn-success">Whatsapp</a>
+                    <a href="{{ route('suppliers.edit', $supplier->id_supplier) }}" class="btn btn-warning">Edit</a> 
+                    <form action="{{ route('suppliers.delete.perform', $supplier->id_supplier) }}" method="POST" class="d-inline">
                         @csrf
                         @method('delete')
-                        <input type="hidden" value="{{ $user->id_user }}" name="id_user">
+                        <input type="hidden" value="{{ $supplier->id_supplier }}" name="id_supplier">
                     <button class="btn btn-danger" type="submit" onclick="return confirm('Are you sure?')">Delete</button>
                     </form>
                 </td>
-            </tr>
+            </tr> 
               @empty
-                 <tr>
-                  <td colspan="7" class="text-center">No Data</td>
-                 </tr> 
-              @endforelse
+              <tr>
+                <td colspan="4" class="text-center">No Data</td>
+              </tr>
+              @endforelse 
             </tbody>
             <tfoot>
             <tr>
               <th>No</th>
-              <th>Username</th>
-              <th>Name(s)</th>
-              <th>Email</th>
-              <th>Address</th>
+              <th>Supplier Name</th>
               <th>Phone Number</th>
-              <th>Role</th>
               <th>Action</th>
             </tr>
             </tfoot>
@@ -87,12 +75,12 @@
 @push('scripts')    
 <script>
   $(function () {
-    $("#users-table").DataTable({
+    $("#suppliers-table").DataTable({
       "responsive": true, 
       "lengthChange": false, 
       "autoWidth": false,
       "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#users-table_wrapper .col-md-6:eq(0)');
+    }).buttons().container().appendTo('#suppliers-table_wrapper .col-md-6:eq(0)');
     $('#example2').DataTable({
       "paging": true,
       "lengthChange": false,

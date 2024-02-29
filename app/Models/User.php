@@ -51,11 +51,19 @@ class User extends Authenticatable
         $this->attributes['password'] = bcrypt($value);
     }
 
-    public function item(){
-        return $this->hasMany(Item::class);
+    public function Role(){
+        return $this->belongsTo(Role::class);
     }
 
-    public function role(){
-        return $this->belongsTo(Role::class);
+    public function ItemInOut(){
+        return $this->hasMany(ItemInOut::class);
+    }
+    
+    public function Cart(){
+        return $this->hasMany(ItemInOut::class);
+    }
+
+    public function Checkout(){
+        return $this->belongsTo(Checkout::class);
     }
 }

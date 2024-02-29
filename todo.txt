@@ -1,0 +1,1 @@
+1. Create view for item, item in out (separated in out), carts, checkout

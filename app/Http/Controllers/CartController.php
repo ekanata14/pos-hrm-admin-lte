@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Item;
-use App\Models\Category;
+use App\Models\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class ItemController extends Controller
+class CartController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,13 +15,13 @@ class ItemController extends Controller
     {
         $viewData = [
             'title' => "HRM System",
-            'path' => "Item",
-            'dir' => "All items",
-            'activePage' => 'category',
-            'items' => Item::all(),
+            'path' => "Cart",
+            'dir' => "All carts",
+            'activePage' => 'cart',
+            'carts' => Cart::all(),
         ];
 
-        return view('pages.admin.items.index', $viewData);
+        return view('pages.admin.carts.index', $viewData);
     }
 
     /**
@@ -32,12 +31,12 @@ class ItemController extends Controller
     { 
         $viewData = [
             'title' => "HRM System",
-            'path' => "Item",
-            'dir' => "Create Item",
-            'activePage' => 'category',
+            'path' => "Cart",
+            'dir' => "Create Cart",
+            'activePage' => 'cart',
         ];
 
-        return view('pages.admin.items.create', $viewData);
+        return view('pages.admin.carts.create', $viewData);
     }
 
     /**
@@ -46,16 +45,11 @@ class ItemController extends Controller
     public function store(Request $request)
     { 
         $validatedData = $request->validate([
-            'name_item' => 'required|max:255|min:2',
-            'base_price_item' => 'required',
-            'sell_price_item' => 'required', 
-            'id_category' => 'required',
-            'id_supplier' => 'required',
-            'item_date' => 'required',
+            'id_user' => 'required',
         ]);
 
-        Item::create($validatedData);
-        return redirect()->route('items.index');
+        Cart::create($validatedData);
+        return redirect()->route('carts.index');
     }
 
     /**
@@ -65,13 +59,13 @@ class ItemController extends Controller
     { 
         $viewData = [
             'title' => "HRM System",
-            'path' => "Item",
-            'dir' => "Edit Item",
-            'activePage' => 'category',
-            'item' => Item::findOrFail($id),
+            'path' => "Cart",
+            'dir' => "Edit Cart",
+            'activePage' => 'cart',
+            'cart' => Cart::findOrFail($id),
        ];
 
-        return view('pages.admin.items.edit', $viewData);
+        return view('pages.admin.carts.edit', $viewData);
     }
 
     /**
@@ -81,19 +75,19 @@ class ItemController extends Controller
     {
         $viewData = [
             'title' => "HRM System",
-            'path' => "Item",
-            'dir' => "Edit Item",
-            'activePage' => 'category',
-            'category' => Item::findOrFail($id)
+            'path' => "Cart",
+            'dir' => "Edit Cart",
+            'activePage' => 'cart',
+            'cart' => Cart::findOrFail($id)
        ];
 
-        return view('pages.admin.items.edit', $viewData);
+        return view('pages.admin.carts.edit', $viewData);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Item $itemk)
+    public function update(Request $request, Cart $cart)
     {
         
         $validatedData = $request->validate([
@@ -105,10 +99,10 @@ class ItemController extends Controller
             'item_date' => 'required',
         ]);
 
-        $Item = Item::findOrFail($request->id_item);
-        $Item->update($validatedData);
+        $Cart = Cart::findOrFail($request->id_item);
+        $Cart->update($validatedData);
         
-        return redirect()->route('items.index');
+        return redirect()->route('carts.index');
     }
 
     /**
@@ -116,8 +110,8 @@ class ItemController extends Controller
      */
     public function destroy(Request $request)
     {
-        $Item = Item::findOrFail($request->id_item);
-        $Item->delete();
-        return redirect('/category');   
+        $Cart = Cart::findOrFail($request->id_item);
+        $Cart->delete();
+        return redirect('/cart');   
     }
 }

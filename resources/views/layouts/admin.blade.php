@@ -156,7 +156,7 @@
             </a>
           </li>
           <li class="nav-item {{ ($activePage == 'supplier') ? 'menu-open' : '' }}">
-            <a href="#" class="nav-link">
+            <a href="{{ route('suppliers.index') }}" class="nav-link">
               <i class="nav-icon fas fa-user"></i>
               <p>
                 Supplier
@@ -164,8 +164,8 @@
               </p>
             </a>
           </li>
-            <li class="nav-item {{ ($activePage == 'supplier') ? 'active' : '' }}">
-            <a href="#" class="nav-link">
+            <li class="nav-item {{ ($activePage == 'category') ? 'menu-open' : '' }}">
+            <a href="{{ route('category.index') }}" class="nav-link">
               <i class="nav-icon fas fa-user {{ ($activePage == 'category') ? 'menu-open' : '' }}"></i>
               <p>
                 Category
