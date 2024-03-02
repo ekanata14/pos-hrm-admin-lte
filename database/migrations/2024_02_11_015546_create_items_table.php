@@ -15,12 +15,11 @@ return new class extends Migration
             $table->increments('id_item');
             $table->string('name_item');
             $table->integer('base_price_item');
-            $table->integer('sell_item_price');
+            $table->integer('sell_price_item');
             $table->unsignedInteger('id_category');
             $table->foreign('id_category')->references('id_category')->on('categories')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->unsignedInteger('id_supplier');
             $table->foreign('id_supplier')->references('id_supplier')->on('suppliers')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->timestamp('item_date');
             $table->timestamps();
         });
     }

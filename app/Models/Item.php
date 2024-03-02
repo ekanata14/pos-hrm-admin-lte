@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Category;
+use App\Models\Supplier;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,11 +15,11 @@ class Item extends Model
     ];
     protected $primaryKey = 'id_item';
 
-    public function category(){
+    public function Category(){
         return $this->belongsTo(Category::class);
     }
 
-    public function supplier(){
+    public function Supplier(){
         return $this->belongsTo(Supplier::class);
     }
 }

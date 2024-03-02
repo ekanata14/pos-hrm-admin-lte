@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use App\Models\Category;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -18,8 +19,8 @@ class ItemController extends Controller
             'title' => "HRM System",
             'path' => "Item",
             'dir' => "All items",
-            'activePage' => 'category',
-            'items' => Item::all(),
+            'activePage' => 'items',
+            'suppliers' => Supplier::all()
         ];
 
         return view('pages.admin.items.index', $viewData);
@@ -34,7 +35,9 @@ class ItemController extends Controller
             'title' => "HRM System",
             'path' => "Item",
             'dir' => "Create Item",
-            'activePage' => 'category',
+            'activePage' => 'items',
+            'suppliers' => Supplier::all(),
+            'categories' => Category::all(),
         ];
 
         return view('pages.admin.items.create', $viewData);
@@ -51,7 +54,6 @@ class ItemController extends Controller
             'sell_price_item' => 'required', 
             'id_category' => 'required',
             'id_supplier' => 'required',
-            'item_date' => 'required',
         ]);
 
         Item::create($validatedData);
@@ -68,10 +70,10 @@ class ItemController extends Controller
             'path' => "Item",
             'dir' => "Edit Item",
             'activePage' => 'category',
-            'item' => Item::findOrFail($id),
+            'items' => Item::join('categories', 'items.id_category', '=', 'categories.id_category')->join('suppliers', 'items.id_supplier', '=', 'suppliers.id_supplier')->where('items.id_supplier', '=', $id)->get(),
        ];
 
-        return view('pages.admin.items.edit', $viewData);
+        return view('pages.admin.items.items', $viewData);
     }
 
     /**
@@ -84,7 +86,9 @@ class ItemController extends Controller
             'path' => "Item",
             'dir' => "Edit Item",
             'activePage' => 'category',
-            'category' => Item::findOrFail($id)
+            'item' => Item::join('categories', 'items.id_category', '=', 'categories.id_category')->join('suppliers', 'items.id_supplier', '=', 'suppliers.id_supplier')->where('items.id_item', '=', $id)->first(),
+            'suppliers' => Supplier::all(),
+            'categories' => Category::all(),
        ];
 
         return view('pages.admin.items.edit', $viewData);
@@ -93,22 +97,20 @@ class ItemController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Item $itemk)
-    {
-        
+    public function update(Request $request, Item $item)
+    {   
         $validatedData = $request->validate([
             'name_item' => 'required|max:255|min:2',
             'base_price_item' => 'required',
             'sell_price_item' => 'required', 
             'id_category' => 'required',
             'id_supplier' => 'required',
-            'item_date' => 'required',
         ]);
 
         $Item = Item::findOrFail($request->id_item);
         $Item->update($validatedData);
         
-        return redirect()->route('items.index');
+        return redirect()->route('items.show', $request->id_supplier);
     }
 
     /**

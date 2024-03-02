@@ -17,7 +17,7 @@ class CheckoutController extends Controller
             'title' => "HRM System",
             'path' => "Checkout",
             'dir' => "All checkouts",
-            'activePage' => 'category',
+            'activePage' => 'checkout',
             'checkouts' => Checkout::all(),
         ];
 
@@ -33,7 +33,7 @@ class CheckoutController extends Controller
             'title' => "HRM System",
             'path' => "Checkout",
             'dir' => "Create Checkout",
-            'activePage' => 'category',
+            'activePage' => 'checkout',
         ];
 
         return view('pages.admin.checkouts.create', $viewData);
@@ -65,7 +65,7 @@ class CheckoutController extends Controller
             'title' => "HRM System",
             'path' => "Checkout",
             'dir' => "Edit Checkout",
-            'activePage' => 'category',
+            'activePage' => 'checkout',
             'item' => Checkout::findOrFail($id),
        ];
 
@@ -81,7 +81,7 @@ class CheckoutController extends Controller
             'title' => "HRM System",
             'path' => "Checkout",
             'dir' => "Edit Checkout",
-            'activePage' => 'category',
+            'activePage' => 'checkout',
             'category' => Checkout::findOrFail($id)
        ];
 

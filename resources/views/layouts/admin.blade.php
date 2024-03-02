@@ -97,7 +97,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="#" class="brand-link d-flex justify-content-center align-items-center">
+    <a href="{{ route('items.index') }}" class="brand-link d-flex justify-content-center align-items-center">
       <img src="{{ asset('AdminLTE-3.2.0/dist/img/logo_hrm.png') }}" alt="AdminLTE Logo" class="img-circle elevation-3" height="50" style="opacity: .8">
     </a>
 
@@ -118,8 +118,8 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item nav-link {{ ($activePage == 'dashboard') ? 'menu-open' : '' }}">
-            <a href="{{ route('home') }}" class="">
+          <li class="nav-item {{ ($activePage == 'dashboard') ? 'menu-open' : '' }}">
+            <a href="{{ route('home') }}" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -136,6 +136,16 @@
               </p>
             </a>
           </li>
+          </li>
+            <li class="nav-item {{ ($activePage == 'pos') ? 'menu-open' : '' }}">
+            <a href="{{ route('pos.index') }}" class="nav-link">
+              <i class="nav-icon fas fa-user"></i>
+              <p>
+                POS SYSTEM
+                {{-- <span class="right badge badge-danger">New</span> --}}
+              </p>
+            </a>
+          </li>
           @if (Auth::user()->id_role == 1)
               <li class="nav-item {{ ($activePage == 'user') ? 'menu-open' : '' }}">
             <a href="{{ route('users.index') }}" class="nav-link">
@@ -147,10 +157,38 @@
             </a>
           </li>
           <li class="nav-item {{ ($activePage == 'items') ? 'menu-open' : '' }}">
-            <a href="#" class="nav-link">
+            <a href="{{ route('items.index') }}" class="nav-link">
               <i class="nav-icon fas fa-user"></i>
               <p>
                 Items
+                {{-- <span class="right badge badge-danger">New</span> --}}
+              </p>
+            </a>
+          </li>
+          <li class="nav-item {{ ($activePage == 'inout') ? 'menu-open' : '' }}">
+            <a href="{{ route('inout.index') }}" class="nav-link">
+              <i class="nav-icon fas fa-user"></i>
+              <p>
+                Items In & Out
+                {{-- <span class="right badge badge-danger">New</span> --}}
+              </p>
+            </a>
+          </li>
+          <li class="nav-item {{ ($activePage == 'cart') ? 'menu-open' : '' }}">
+            <a href="{{ route('cart.index') }}" class="nav-link">
+              <i class="nav-icon fas fa-user"></i>
+              <p>
+                Cart
+                {{-- <span class="right badge badge-danger">New</span> --}}
+              </p>
+            </a>
+          </li>
+         
+          <li class="nav-item {{ ($activePage == 'checkout') ? 'menu-open' : '' }}">
+            <a href="{{ route('checkout.index') }}" class="nav-link">
+              <i class="nav-icon fas fa-user"></i>
+              <p>
+                Checkout
                 {{-- <span class="right badge badge-danger">New</span> --}}
               </p>
             </a>
