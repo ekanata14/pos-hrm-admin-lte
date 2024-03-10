@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Checkout;
+use App\Models\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -54,6 +55,31 @@ class CheckoutController extends Controller
 
         Checkout::create($validatedData);
         return redirect()->route('checkouts.index');
+    }
+
+    public function storeApi(Request $request)
+    { 
+        $validatedData = $request->validate([
+            'id_cart' => 'required',
+            'total' => 'required',
+            'payment_method' => 'required',
+            'id_user' => 'required',
+            'date_checkout' => 'required',
+        ]);
+        $cart = Cart::findOrFail($request->id_cart);
+        $cart->update(['is_checked_out' => '1']);
+        Checkout::create($validatedData);
+        return response()->json(['message' => "Checked Out Successfully"]);
+    }
+
+    public function checkOutLeaderBoard(){
+        $leaderboard = DB::table('checkouts')
+    ->leftJoin('users', 'checkouts.id_user', '=', 'users.id_user')
+    ->select('users.username', DB::raw('COUNT(checkouts.id_checkout) AS total_transaction'))
+    ->groupBy('users.id_user')
+    ->orderBy('total_transaction', 'DESC')
+    ->get();
+        return $leaderboard;
     }
 
     /**

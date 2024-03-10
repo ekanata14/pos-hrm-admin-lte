@@ -20,10 +20,25 @@ class ItemController extends Controller
             'path' => "Item",
             'dir' => "All items",
             'activePage' => 'items',
-            'suppliers' => Supplier::all()
+            'suppliers' => Supplier::all(),
+            'items' => Item::all()
         ];
 
         return view('pages.admin.items.index', $viewData);
+    }
+
+    public function indexApi(){
+        $data = [
+            'items' => Item::all(),
+        ];
+        return $data['items'];
+    }
+
+    public function getByCategoryApi(string $id){
+        $data = [
+            'items' => Item::where('id_category', '=', $id)->get(),
+        ];
+        return $data['items'];
     }
 
     /**

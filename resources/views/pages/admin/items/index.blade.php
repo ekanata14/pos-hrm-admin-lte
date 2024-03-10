@@ -27,7 +27,6 @@
             <tr>
               <th>No</th>
               <th>Supplier Name</th>
-              <th>Phone Number</th>
               <th>Action</th>
             </tr>
             </thead>
@@ -36,7 +35,6 @@
             <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $supplier->name_supplier }}</td>
-                <td>{{ $supplier->phone_number_supplier }}</td>
                 <td>
                     <a href="{{ route('items.show', $supplier->id_supplier) }}" class="btn btn-info">Detail</a> 
                 </td>
@@ -51,7 +49,6 @@
             <tr>
               <th>No</th>
               <th>Supplier Name</th>
-              <th>Phone Number</th>
               <th>Action</th>
             </tr>
             </tfoot>

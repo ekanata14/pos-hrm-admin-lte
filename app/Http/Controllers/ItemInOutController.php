@@ -46,7 +46,6 @@ class ItemInOutController extends Controller
     public function store(Request $request)
     { 
         $validatedData = $request->validate([
-            'id_item_in_out' => 'required',
             'id_cart' => 'required',
             'id_item' => 'required',
             'item_in' => 'required', 
@@ -57,6 +56,35 @@ class ItemInOutController extends Controller
 
         ItemInOut::create($validatedData);
         return redirect()->route('inouts.index');
+    }
+
+    public function storeApi(Request $request)
+    { 
+        $validatedData = $request->validate([
+            'id_cart' => 'required',
+            'id_item' => 'required',
+            'item_in' => 'required', 
+            'item_out' => 'required',
+            'id_user' => 'required',
+            'item_date' => 'required',
+        ]);
+
+        ItemInOut::create($validatedData);
+        return response()->json(['message' => "Item added successfully"]);
+    }
+
+    public function findByCart(string $id){
+        $itemsByCart = ItemInOut::leftjoin('items', 'item_in_outs.id_item', '=', 'items.id_item')->where('id_cart', '=', $id)->get();
+        return response()->json($itemsByCart);
+    }
+
+    public function historyPerDay(){
+        $itemsPerDay = DB::table('items')
+    ->leftJoin(DB::raw('(SELECT id_item, id_user, item_date, SUM(item_out) AS item_out FROM item_in_outs WHERE item_date = CURDATE() GROUP BY id_item, id_user, item_date) AS item_in_outs'), 'items.id_item', '=', 'item_in_outs.id_item')
+    ->select('items.*', DB::raw('COALESCE(SUM(item_in_outs.item_out), 0) AS total_item_out'))
+    ->groupBy('items.id_item')
+    ->get();
+        return response()->json($itemsPerDay);
     }
 
     /**
@@ -119,6 +147,12 @@ class ItemInOutController extends Controller
     {
         $item = ItemInOut::findOrFail($request->id_item_in_out);
         $item->delete();
-        return redirect('/inout');   
+        return redirect('/inout');
+    }
+
+    public function destroyApi(string $id){ 
+        $item = ItemInOut::findOrFail($id);
+        $item->delete();
+        return response()->json(['message' => 'Item Deleted Successfully']);
     }
 }

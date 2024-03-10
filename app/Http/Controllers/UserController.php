@@ -120,6 +120,35 @@ class UserController extends Controller
         
         return redirect()->route('users.index');
     }
+    
+    public function updateApi(Request $request)
+    { 
+        $validatedData = $request->validate([
+            'username' => 'required|max:255|min:2',
+            'name' => 'required|max:255|min:2',
+            'email' => 'required|email|max:255',
+            'address' => 'required|min:2',
+            'phone_number' => 'required|min:5',
+        ]);
+
+        $user = User::findOrFail($request->id_user);
+        $user->update($validatedData);
+     
+        return response()->json(['message' => 'User Updated Successfully']);
+    }
+    
+    public function updatePasswordApi(Request $request)
+    { 
+        $validatedData = $request->validate([
+            'password' => 'required',
+        ]);
+
+        $user = User::findOrFail($request->id_user);
+        $hashedPassword = Hash::make($validatedData['password']);
+        $user->update([$validatedData['password'] => $hashedPassword]);
+     
+        return response()->json(['message' => 'Password Changed Successfully']);
+    }
 
     /**
      * Remove the specified resource from storage.

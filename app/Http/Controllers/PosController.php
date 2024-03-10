@@ -24,6 +24,7 @@ class PosController extends Controller
             'activePage' => 'pos',
             'items' => Item::all(),
             'inouts' => ItemInOut::all(),
+            'categories' => Category::all(),
         ];
 
         return view('pages.admin.pos.index', $viewData);

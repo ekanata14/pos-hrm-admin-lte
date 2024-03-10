@@ -40,7 +40,7 @@
                   </div>
                   <div class="form-group">
                     <label for="sellPriceItem">Sell Price Item</label>
-                    <input type="number" class="form-control" id="sellPriceItem" placeholder="Enter Email" name="sell_price_item">
+                    <input type="number" class="form-control" id="sellPriceItem" placeholder="Enter Sell Price" name="sell_price_item">
                   </div>
                     <div class="form-group">
                     <label for="supplier">Supplier</label>

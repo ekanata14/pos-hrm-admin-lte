@@ -52,6 +52,26 @@ class CartController extends Controller
         return redirect()->route('carts.index');
     }
 
+    public function checkCart(string $id){
+        $cart = Cart::where('id_user', '=', $id)->where('is_checked_out', '=', 0)->first();
+        if($cart){
+            return $cart->id_cart;
+        } else{
+            return "false";
+        }
+    }
+
+    public function storeApi(Request $request)
+    { 
+        $validatedData = $request->validate([
+            'id_user' => 'required',
+            'is_checked_out' => 'required'
+        ]);
+
+        Cart::create($validatedData);
+        return response()->json(['message' => "Successfully create cart"]);
+    }
+
     /**
      * Display the specified resource.
      */

@@ -27,6 +27,14 @@ class CategoryController extends Controller
         // ]);
     }
 
+    public function indexApi(){
+        $data = [
+            'categories' => Category::all()
+        ];
+
+        return $data['categories'];
+    }
+
     /**
      * Show the form for creating a new resource.
      */
