@@ -22,31 +22,6 @@ class DatabaseSeeder extends Seeder
         DB::table('roles')->insert([
             'name_role' => 'user'
         ]);
-        
-        DB::table('suppliers')->insert([
-            'name_supplier' => 'Pak Yusuf',
-            'phone_number_supplier' => '081234567436775'
-        ]);
-        
-        DB::table('suppliers')->insert([
-            'name_supplier' => 'Glico',
-            'phone_number_supplier' => '081234567436775'
-        ]);
-
-        DB::table('suppliers')->insert([
-            'name_supplier' => 'Sosro',
-            'phone_number_supplier' => '081234567436775'
-        ]);
-
-        DB::table('suppliers')->insert([
-            'name_supplier' => 'Om Dody',
-            'phone_number_supplier' => '081234567436775'
-        ]);
-
-        DB::table('suppliers')->insert([
-            'name_supplier' => 'Om Yudi',
-            'phone_number_supplier' => '081234567436775'
-        ]);
 
         DB::table('categories')->insert([
             'name_category' => 'Makanan',
@@ -63,15 +38,11 @@ class DatabaseSeeder extends Seeder
         DB::table('categories')->insert([
             'name_category' => 'Alat Sholat',
         ]);
-        
-        DB::table('categories')->insert([
-            'name_category' => 'Kosmetik',
-        ]);
 
         DB::table('users')->insert([
             'username' => 'admin',
             'name' => 'Admin',
-            'email' => 'admin@test.com',
+            'email' => 'admin@hrmsanur.my.id',
             'id_role' => 1,
             'password' => bcrypt('admin'),
             'address' => "Denpasar",
