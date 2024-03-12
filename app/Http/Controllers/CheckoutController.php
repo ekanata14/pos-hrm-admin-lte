@@ -25,6 +25,11 @@ class CheckoutController extends Controller
         return view('pages.admin.checkouts.index', $viewData);
     }
 
+    public function totalApi(){
+        $total = Checkout::sum('total');
+        return $total;
+    }
+
     /**
      * Show the form for creating a new resource.
      */

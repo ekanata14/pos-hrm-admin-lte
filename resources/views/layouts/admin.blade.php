@@ -143,7 +143,7 @@
           </li>
           </li>
             <li class="nav-item {{ ($activePage == 'pos') ? 'menu-open' : '' }}">
-            <a href="{{ route('pos.index') }}" class="nav-link">
+            <a href="https://bazzar.hrmsanur.my.id" class="nav-link">
               <i class="nav-icon fas fa-user"></i>
               <p>
                 POS SYSTEM

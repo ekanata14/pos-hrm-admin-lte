@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\MOdels\Checkout;
 
 class HomeController extends Controller
 {
@@ -28,6 +29,7 @@ class HomeController extends Controller
             'path' => "Dashboard",
             'dir' => "Dashboard",
             'activePage' => 'dashboard',
+            'totalKas' => Checkout::sum('total')
         ];
 
         return view('pages.admin.dashboard', $viewData);

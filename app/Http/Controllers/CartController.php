@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Checkout;
 
 class CartController extends Controller
 {
@@ -19,6 +20,7 @@ class CartController extends Controller
             'dir' => "All carts",
             'activePage' => 'cart',
             'carts' => Cart::all(),
+            'totalKas' => Checkout::sum('total')
         ];
 
         return view('pages.admin.carts.index', $viewData);

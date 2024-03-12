@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Checkout;
 
 class SupplierController extends Controller
 {
@@ -19,6 +20,7 @@ class SupplierController extends Controller
             'dir' => "All suppliers",
             'activePage' => 'supplier',
             'suppliers' => Supplier::all(),
+            'totalKas' => Checkout::sum('total')
         ];
 
         return view('pages.admin.suppliers.index', $viewData);
@@ -114,4 +116,49 @@ class SupplierController extends Controller
         $supplier->delete();
         return redirect('/supplier');   
     }
+
+    // API CONTROLLER
+
+    public function getSupplier(){
+        return response()->json(['suppliers' => Supplier::all()]);
+    }
+
+    public function getSupplierById(string $id){
+        return response()->json(['supplier' => Supplier::where('id_supplier', '=', $id)]);
+    }
+
+    public function storeSupplierApi(Request $request){
+        $validatedData = $request->validate([
+            'name_supplier' => 'required|max:255|min:2',
+            'phone_number_supplier' => 'required|min:2',
+        ]);
+
+        Supplier::create($validatedData);
+        return response()->json(['message' => 'Supplier Created Successfully']);
+    }
+    
+    public function updateSupplierApi(Request $request){
+        $validatedData = $request->validate([
+            'name_supplier' => 'required|max:255|min:2',
+            'phone_number_supplier' => 'required|min:2',
+        ]); 
+
+        $supplier = Supplier::findOrFail($request->id_supplier);
+        $supplier->update($validatedData);
+        
+        return response()->json(['message' => 'Supplier Updated Successfully']);
+    }
+
+    public function deleteSupplierApi(String $id)
+    {
+        $supplier = Supplier::findOrFail($id);
+        $supplier->delete();
+        return response()->json(['message' => 'Supplier Deleted Successfully']);   
+    }
+
+
+
+
+
+
 }

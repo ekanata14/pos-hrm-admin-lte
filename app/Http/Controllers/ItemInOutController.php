@@ -6,6 +6,7 @@ use App\Models\ItemInOut;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Checkout;
 
 class ItemInOutController extends Controller
 {
@@ -20,6 +21,7 @@ class ItemInOutController extends Controller
             'dir' => "All item in out",
             'activePage' => 'inout',
             'inouts' => ItemInOut::all(),
+            'totalKas' => Checkout::sum('total')
         ];
 
         return view('pages.admin.inouts.index', $viewData);
@@ -61,7 +63,7 @@ class ItemInOutController extends Controller
     public function storeApi(Request $request)
     { 
         $validatedData = $request->validate([
-            'id_cart' => 'required',
+            'id_cart' => '',
             'id_item' => 'required',
             'item_in' => 'required', 
             'item_out' => 'required',

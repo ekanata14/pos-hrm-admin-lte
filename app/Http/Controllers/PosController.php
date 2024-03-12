@@ -25,6 +25,7 @@ class PosController extends Controller
             'items' => Item::all(),
             'inouts' => ItemInOut::all(),
             'categories' => Category::all(),
+            'totalKas' => Checkout::sum('total')
         ];
 
         return view('pages.admin.pos.index', $viewData);

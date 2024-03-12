@@ -8,6 +8,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemInOutController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -34,9 +35,21 @@ Route::get('/me', [AuthController::class, 'me'])->middleware("auth:sanctum");
 Route::post('/editUser', [UserController::class, 'updateApi'])->middleware('auth:sanctum');
 Route::post('changePassword', [UserController::class, 'updatePasswordApi'])->middleware('auth:sanctum');
 
+// Supplier
+Route::get('/supplier', [SupplierController::class, 'getSupplier'])->middleware('auth:sanctum');
+Route::get('/supplier/{id}', [SupplierController::class, 'getSupplierById'])->middleware('auth:sanctum');
+Route::post('/supplier', [SupplierController::class, 'storeSupplierApi'])->middleware('auth:sanctum');
+Route::post('/supplier/edit', [SupplierController::class, 'updateSupplierApi'])->middleware('auth:sanctum');
+Route::get('/supplier/delete/{id}', [SupplierController::class, 'deleteSupplierApi'])->middleware('auth:sanctum');
+
 // Item
 Route::get('/items', [ItemController::class, 'indexApi'])->middleware('auth:sanctum');
+Route::get('/itemsById/{id}', [ItemController::class, 'getItemsById'])->middleware('auth:sanctum');
+Route::get('/itemsSup/{id}', [ItemController::class, 'getItemsBySupplier'])->middleware('auth:sanctum');
 Route::get('/items/{id}', [ItemController::class, 'getByCategoryApi'])->middleware('auth:sanctum');
+Route::post('/items', [ItemController::class, 'storeItemsApi'])->middleware('auth:sanctum');
+Route::post('/items/edit', [ItemController::class, 'updateItemsApi'])->middleware('auth:sanctum');
+Route::get('/items/delete/{id}', [ItemController::class, 'deleteItemsApi'])->middleware('auth:sanctum');
 
 // Category
 Route::get('/category', [CategoryController::class, 'indexApi'])->middleware('auth:sanctum');
@@ -47,7 +60,7 @@ Route::post('/cart', [CartController::class, 'storeApi'])->middleware('auth:sanc
 
 // Item In Out
 Route::get('/iteminout', [ItemInOutController::class, 'indexApi'])->middleware('auth:sanctum');
-Route::post('/itemOut', [ItemInOutController::class, 'storeApi'])->middleware('auth:sanctum');
+Route::post('/itemInOut', [ItemInOutController::class, 'storeApi'])->middleware('auth:sanctum');
 Route::get('/itemByCart/{id}', [ItemInOutController::class, 'findByCart'])->middleware('auth:sanctum');
 Route::get('/itemDestroy/{id}', [ItemInOutController::class, 'destroyApi'])->middleware('auth:sanctum');
 Route::get('/itemToday', [ItemInOutController::class, 'historyPerDay'])->middleware('auth:sanctum');
@@ -55,6 +68,7 @@ Route::get('/itemToday', [ItemInOutController::class, 'historyPerDay'])->middlew
 // Checkout
 Route::post('/checkout', [CheckoutController::class, 'storeApi'])->middleware('auth:sanctum');
 Route::get('/checkoutLeaderboard', [CheckoutController::class, 'checkOutLeaderBoard'])->middleware('auth:sanctum');
+Route::get('/total', [CheckoutController::class, 'totalApi'])->middleware('auth:sanctum');
 
 
 // In Out

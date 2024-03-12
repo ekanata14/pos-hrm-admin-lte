@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Checkout;
 
 class ItemController extends Controller
 {
@@ -21,7 +22,8 @@ class ItemController extends Controller
             'dir' => "All items",
             'activePage' => 'items',
             'suppliers' => Supplier::all(),
-            'items' => Item::all()
+            'items' => Item::all(),
+            'totalKas' => Checkout::sum('total')
         ];
 
         return view('pages.admin.items.index', $viewData);
@@ -29,7 +31,7 @@ class ItemController extends Controller
 
     public function indexApi(){
         $data = [
-            'items' => Item::all(),
+            'items' => Item::orderBy('name_item', 'ASC')->get(),
         ];
         return $data['items'];
     }
@@ -136,5 +138,58 @@ class ItemController extends Controller
         $Item = Item::findOrFail($request->id_item);
         $Item->delete();
         return redirect('/category');   
+    }
+
+    // API CONTROLLER
+    public function getItems(){
+        return response()->json(['items' => Item::orderBy('name_item', 'ASC')->get()]);
+    }
+
+    public function getItemsById(string $id){
+        return response()->json(['item' => Item::where('id_item', '=', $id)->orderBy('name_item', 'ASC')->get()]);
+    }
+
+    public function getItemsBySupplier(string $id){
+        $results = DB::table('items')
+    ->select('items.id_item', 'items.name_item', 'items.base_price_item', 'items.sell_price_item')
+    ->selectRaw('(SELECT COALESCE(SUM(item_in_outs.item_in), 0) FROM item_in_outs WHERE item_in_outs.id_item = items.id_item) - 
+                 (SELECT COALESCE(SUM(item_in_outs.item_out), 0) FROM item_in_outs WHERE item_in_outs.id_item = items.id_item) AS total_stock')->where('items.id_supplier', '=', $id)->orderBy('name_item', 'ASC')
+    ->get();
+        return response()->json(['items' => $results]);
+    }
+
+    public function storeItemsApi(Request $request){
+        $validatedData = $request->validate([
+            'name_item' => 'required|max:255|min:2',
+            'base_price_item' => 'required',
+            'sell_price_item' => 'required', 
+            'id_category' => 'required',
+            'id_supplier' => 'required',
+        ]);
+
+        Item::create($validatedData);
+        return response()->json(['message' => 'Items Created Successfully']);
+    }
+    
+    public function updateItemsApi(Request $request){
+        $validatedData = $request->validate([
+            'name_item' => 'required|max:255|min:2',
+            'base_price_item' => 'required',
+            'sell_price_item' => 'required', 
+            'id_category' => 'required',
+            'id_supplier' => 'required',
+        ]);
+
+        $Item = Item::findOrFail($request->id_item);
+        $Item->update($validatedData);
+        
+        return response()->json(['message' => 'Items Updated Successfully']);
+    }
+
+    public function deleteItemsApi(String $id)
+    {
+        $item = Item::findOrFail($id);
+        $item->delete();
+        return response()->json(['message' => 'Items Deleted Successfully']);   
     }
 }

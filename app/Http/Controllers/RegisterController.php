@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 // use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\Checkout;
 
 class RegisterController extends Controller
 {

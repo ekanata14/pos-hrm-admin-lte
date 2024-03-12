@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use App\Models\Role;
+use App\Models\Checkout;
 
 class UserController extends Controller
 {
@@ -22,6 +23,7 @@ class UserController extends Controller
             'dir' => "All Users",
             'activePage' => 'user',
             'users' => User::join('roles', 'users.id_role', '=', 'roles.id_role')->select('users.*', 'roles.name_role as name_role')->get(),
+            'totalKas' => Checkout::sum('total')
         ];
 
         return view('pages.admin.users.index', $viewData);
