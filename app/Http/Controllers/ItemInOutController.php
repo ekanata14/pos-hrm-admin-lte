@@ -89,6 +89,14 @@ class ItemInOutController extends Controller
         return response()->json($itemsPerDay);
     }
 
+    public function totalPerDay(){
+       $totalPerDay = DB::table('checkouts')
+            ->whereDate('checkout_date', now()->toDateString())
+            ->sum('total');
+
+        return response()->json($totalPerDay);
+    }
+
     /**
      * Display the specified resource.
      */

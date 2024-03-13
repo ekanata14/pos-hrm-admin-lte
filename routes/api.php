@@ -64,6 +64,7 @@ Route::post('/itemInOut', [ItemInOutController::class, 'storeApi'])->middleware(
 Route::get('/itemByCart/{id}', [ItemInOutController::class, 'findByCart'])->middleware('auth:sanctum');
 Route::get('/itemDestroy/{id}', [ItemInOutController::class, 'destroyApi'])->middleware('auth:sanctum');
 Route::get('/itemToday', [ItemInOutController::class, 'historyPerDay'])->middleware('auth:sanctum');
+Route::get('/totalPerDay', [ItemInOutController::class, 'totalPerDay'])->middleware('auth:sanctum');
 
 // Checkout
 Route::post('/checkout', [CheckoutController::class, 'storeApi'])->middleware('auth:sanctum');

@@ -14,15 +14,15 @@ class AuthController extends Controller
 {
     public function login(Request $request){
         $request->validate([
-            'email' => 'required|email',
+            'username' => 'required',
             'password' => 'required',
         ]);
         
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('username', '=', $request->username)->first();
 
         if(!$user && Hash::check($request->password, $user->password)){
             throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect']
+                'message' => ['The provided credentials are incorrect']
             ]);
         }
 
@@ -32,29 +32,17 @@ class AuthController extends Controller
     
     public function register(Request $request)
     {
-        $requestData = json_decode($request->getContent(), true);
-        $validator = Validator::make($requestData, [
-            'name' => 'required|min:2|max:255',
-            'username' => 'required|min:2|max:255',
-            'email' => 'required|email',    
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'username' => 'required',
+            'email' => 'required', 
             'address' => 'required',
             'phone_number' => 'required',
             'password' => 'required',
-            'id_role' => 'required',
+            'id_role' => 'required'
         ]);
-
-        if($validator->fails()){
-            throw New ValidationException($validator);
-        }
-
-        try{
-            $user = User::create($requestData);
+            User::create($validatedData);
             return response()->json(['message' => 'Registered Successfully']);
-        } catch(\Exception $e){
-            throw ValidationException::withMessages([
-                'error' => ['Failed to create user']
-            ]);
-        }
     }
 
     public function me(){
