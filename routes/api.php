@@ -10,6 +10,7 @@ use App\Http\Controllers\ItemInOutController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
+use App\Models\ItemInOut;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,9 +32,16 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 Route::get('/me', [AuthController::class, 'me'])->middleware("auth:sanctum");
 
-// User
+// Profile
 Route::post('/editUser', [UserController::class, 'updateApi'])->middleware('auth:sanctum');
-Route::post('changePassword', [UserController::class, 'updatePasswordApi'])->middleware('auth:sanctum');
+Route::post('/changePassword', [UserController::class, 'updatePasswordApi'])->middleware('auth:sanctum');
+
+// User
+Route::get('/users', [UserController::class, 'getUsersApi'])->middleware('auth:sanctum');
+Route::get('/users/{id}', [UserController::class, 'getUserById'])->middleware('auth:sanctum');
+Route::post('/users', [UserController::class, 'storeUserApi'])->middleware('auth:sanctum');
+Route::post('/users/edit', [UserController::class, 'updateApi'])->middleware('auth:sanctum');
+Route::get('/users/delete/{id}', [UserController::class, 'deleteUserApi'])->middleware('auth:sanctum');
 
 // Supplier
 Route::get('/supplier', [SupplierController::class, 'getSupplier'])->middleware('auth:sanctum');
@@ -63,8 +71,9 @@ Route::get('/iteminout', [ItemInOutController::class, 'indexApi'])->middleware('
 Route::post('/itemInOut', [ItemInOutController::class, 'storeApi'])->middleware('auth:sanctum');
 Route::get('/itemByCart/{id}', [ItemInOutController::class, 'findByCart'])->middleware('auth:sanctum');
 Route::get('/itemDestroy/{id}', [ItemInOutController::class, 'destroyApi'])->middleware('auth:sanctum');
-Route::get('/itemToday', [ItemInOutController::class, 'historyPerDay'])->middleware('auth:sanctum');
-Route::get('/totalPerDay', [ItemInOutController::class, 'totalPerDay'])->middleware('auth:sanctum');
+Route::get('/itemToday/{date}', [ItemInOutController::class, 'historyPerDay'])->middleware('auth:sanctum');
+Route::get('/totalPerDay/{date}', [ItemInOutController::class, 'totalPerDay'])->middleware('auth:sanctum');
+Route::get('/totalAll', [ItemInOutController::class, 'totalAll'])->middleware('auth:sanctum');
 
 // Checkout
 Route::post('/checkout', [CheckoutController::class, 'storeApi'])->middleware('auth:sanctum');

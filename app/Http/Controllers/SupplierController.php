@@ -118,13 +118,12 @@ class SupplierController extends Controller
     }
 
     // API CONTROLLER
-
     public function getSupplier(){
         return response()->json(['suppliers' => Supplier::all()]);
     }
 
     public function getSupplierById(string $id){
-        return response()->json(['supplier' => Supplier::where('id_supplier', '=', $id)]);
+        return response()->json(['supplier' => Supplier::where('id_supplier', '=', $id)->first()]);
     }
 
     public function storeSupplierApi(Request $request){

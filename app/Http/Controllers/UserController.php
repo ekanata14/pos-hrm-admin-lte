@@ -121,6 +121,40 @@ class UserController extends Controller
         $user->update($validatedData);
         
         return redirect()->route('users.index');
+    } 
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Request $request)
+    {
+        $user = User::findOrFail($request->id_user);
+        $user->delete();
+        return redirect('/users');
+    
+    }
+
+    public function getUsersApi(){
+        return response()->json(['users' => User::all()]);
+    }
+
+    public function getUserById(string $id){
+        return response()->json(['user' => User::where('id_user', '=', $id)->first()]);
+    }
+
+    public function storeUserApi(Request $request){
+        $validatedData = $request->validate([
+            'username' => 'required|max:255|min:2',
+            'name' => 'required|max:255|min:2',
+            'email' => 'required|email|max:255|unique:users,email',
+            'password' => 'required|min:5|max:255',
+            'address' => 'required|min:2',
+            'phone_number' => 'required|min:2',
+            'id_role' => 'required' 
+        ]);
+
+        User::create($validatedData);
+        return response()->json(['message' => "User Created Successfully"]);
     }
     
     public function updateApi(Request $request)
@@ -147,19 +181,13 @@ class UserController extends Controller
 
         $user = User::findOrFail($request->id_user);
         $hashedPassword = Hash::make($validatedData['password']);
-        $user->update([$validatedData['password'] => $hashedPassword]);
-     
+        $user->update([$validatedData['password'] => $hashedPassword]); 
         return response()->json(['message' => 'Password Changed Successfully']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Request $request)
-    {
-        $user = User::findOrFail($request->id_user);
+    public function deleteUserApi(string $id){ 
+        $user = User::findOrFail($id);
         $user->delete();
-        return redirect('/users');
-    
+        return response()->json(['message' => 'User deleted successfully']);
     }
 }
